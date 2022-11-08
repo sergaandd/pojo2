@@ -3,6 +3,9 @@ package shpp.mentor;
 import com.google.gson.Gson;
 import jakarta.validation.ConstraintViolation;
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.jms.*;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,6 +13,7 @@ import java.util.Properties;
 import java.util.Set;
 
 public class App {
+    public static final Logger logger = LoggerFactory.getLogger(App.class);
 
     public  static void main(String[] args)  {
         try {
@@ -51,7 +55,7 @@ public class App {
 
                     } else {
                         //If receive POISON PILL - Stop reading queue
-                        System.out.println("----------Magic pill-----------------------");
+                        logger.info("----------Magic pill-----------------------");
                         closeConnection(errorFileWriter, validFileWriter,
                                         consumer, consumerSession, consumerConnection);
                     }
@@ -61,11 +65,11 @@ public class App {
                 }
             }
             //Closing connection after reading procedure
-            System.out.println(closeConnection(errorFileWriter, validFileWriter,
+            logger.info(closeConnection(errorFileWriter, validFileWriter,
                     consumer, consumerSession, consumerConnection));
 
         }catch (JMSException e){
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

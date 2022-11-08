@@ -1,5 +1,7 @@
 package shpp.mentor;
 
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import jakarta.validation.constraints.*;
 import java.util.Objects;
 
@@ -10,6 +12,7 @@ public class Pojo {
 
     @Size(min=7, message = "Name should be more 7 symbols")
     @Pattern(regexp ="[\\w]*[Aa]+[\\w]*",message = "No a in name")
+    @Check3numericInName(message = "There is 3 num in name")
     private String name;
 
     private String created_at;
@@ -65,4 +68,5 @@ public class Pojo {
     public int hashCode() {
         return Objects.hash(count, name, created_at);
     }
+
 }
